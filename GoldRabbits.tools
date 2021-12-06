@@ -1,0 +1,48 @@
+/**
+Name: Ellesia Truong
+Class (CECS 282-04)
+Project Name (Program 5 - BigInt)
+Due Date (11/30/21)
+I certify that this program is my own original work. I did not copy any part of this program from any other source. I further certify that I typed each and every line of code in this program
+*/
+
+#ifndef GoldRabbits_TOOLS
+#define GoldRabbits_TOOLS
+
+
+#include "BigInt.h" 
+
+
+int goldRabbits(int n){
+  if(n == 0 || n == 1){
+    return 1;
+  }
+
+  else if(n >= 46){
+    throw string("Overflow Error - goldRabbits Overflowed using 46.");
+  }
+
+  else{
+    int sum = goldRabbits(n - 1) + goldRabbits(n - 2);
+    return sum;
+  }
+}
+
+
+BigInt goldRabbits(BigInt n){
+  // create static map
+  static map<BigInt, BigInt> m;
+  m.insert(pair<BigInt, BigInt>(BigInt(0), BigInt(1)));
+  m.insert(pair<BigInt, BigInt>(BigInt(1), BigInt(1)));
+
+  
+  if(m.find(n) == m.end()){
+
+    BigInt sum = goldRabbits(n - 1) + goldRabbits(n - 2);
+    m.insert(pair<BigInt, BigInt>(n, sum));
+  }
+
+  return m.at(n);
+}
+
+#endif
